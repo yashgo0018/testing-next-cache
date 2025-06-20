@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const cachedUser = unstable_cache(async (userId: number) => {
   console.log("fetching user", userId);
-  return { id: userId, name: "John Doe" };
+  return await (await fetch(`https://jsonplaceholder.typicode.com/users/${userId}`)).json();
 }, [], {revalidate: 50});
 
 export default async function Home() {
