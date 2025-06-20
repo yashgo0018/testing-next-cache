@@ -1,6 +1,16 @@
+"use server";
+
+import { unstable_cache } from "next/cache";
 import Image from "next/image";
 
-export default function Home() {
+const cachedUser = unstable_cache(async (userId: number) => {
+  console.log("fetching user", userId);
+  return { id: userId, name: "John Doe" };
+}, [], {revalidate: 50});
+
+export default async function Home() {
+  const user = await cachedUser(1);
+
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
